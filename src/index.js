@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Home from './pages/Home/App';
 import * as serviceWorker from './serviceWorker';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import CadastroVideos from './pages/cadastro/Video';
+import CadastroCategoria from './pages/cadastro/Categoria';
+
+//colocar pagina 404 customizada com joguinho do mario
+const Pagina404 = () => (<div>404</div>);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" component={Home} exact />
+      <Route path="/cadastro/video" component={CadastroVideos}/>
+      <Route path="/cadastro/categoria" component={CadastroCategoria}/>
+      <Route component={Pagina404}/>
+    </Switch>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
