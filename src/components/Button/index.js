@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-.ButtonLink {
     color: var(--white);
+    background: var(--black);
     border: 1px solid var(--white);
     box-sizing: border-box;
     cursor: pointer;
@@ -15,11 +15,10 @@ const Button = styled.button`
     text-decoration: none;
     display: inline-block;
     transition: opacity .3s;
-}
     &:hover,
     &:focus {
       opacity: .5;
     }
 `;
 
-export default Button
+export default Button;
