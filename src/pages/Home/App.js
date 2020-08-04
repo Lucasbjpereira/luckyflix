@@ -1,28 +1,39 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import '../../App.css';
-import Menu from '../../components/Menu';
 import BannerMain from '../../components/BannerMain';
 import Carousel from '../../components/Carousel';
-import Footer from '../../components/Footer';
-import Data from '../../data/dados_iniciais.json'; 
+import CategoryRepositories from '../../repositories/categorias';
+import PageDefault from '../../components/PageDefault';
 
-const AppWrapper = styled.div `
-  background: var(--grayDark);
-`;
 function Home() {
-  console.log(Data)
+  const [Data, setData] = useState([]);
+  useEffect(() => {
+    CategoryRepositories.getAllWithVideos().then((videoWithCategories) => {
+      setData(videoWithCategories);
+    }).catch((error) => console.log(error.message));
+  }, []);
+
   return (
-    <AppWrapper>
-      <Menu/>
-      <BannerMain videoTitle={Data.categorias[0].titulo} videoDescription="desc" url={Data.categorias[0].videos[0].url}></BannerMain>
-      <Carousel ignoreFirstVideo category={Data.categorias[0]} />
-      <Carousel ignoreFirstVideo category={Data.categorias[1]} />
-      <Carousel ignoreFirstVideo category={Data.categorias[2]} />
-      <Carousel ignoreFirstVideo category={Data.categorias[3]} />
-      <Carousel ignoreFirstVideo category={Data.categorias[4]} />
-      <Footer/>
-    </AppWrapper>
+    <PageDefault paddingAll={0}>
+
+      {Data.length === 0 && (<div>Loading...</div>)}
+
+      {Data.map((category, index) => {
+        if (index === 0) {
+          return (
+            <div key={category.id}>
+              <BannerMain videoTitle={Data[0].videos.titulo} videoDescription="desc" url={Data[0].videos[0].url} />
+              <Carousel ignoreFirstVideo category={Data[0]} />
+            </div>
+          );
+        }
+
+        return (
+          <Carousel key={category.id} category={category} />
+        );
+      })}
+
+    </PageDefault>
   );
 }
 

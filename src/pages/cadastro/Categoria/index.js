@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from '../../../components/Button';
 import FormFields from '../../../components/FormFields';
 import PageDefault from '../../../components/PageDefault';
+import useForm from '../../../hooks/useForms';
 
 function CadastroCategoria() {
   const [categorias, setCategoria] = useState([]);
@@ -13,24 +14,10 @@ function CadastroCategoria() {
     color: '',
   };
 
-  const [values, setValues] = useState(categoryValues);
-
-  function setValue(chave, valor) {
-    setValues({
-      ...values,
-      [chave]: valor,
-    });
-  }
-
-  function handleChange(event) {
-    setValue(
-      event.target.getAttribute('name'),
-      event.target.value,
-    );
-  }
+  const { handleChange, values, clearForm } = useForm(categoryValues);
 
   useEffect(() => {
-    const url = 'http://localhost:8080/categoria';
+    const url = 'https://luckyflix.herokuapp.com/categoria';
 
     fetch(url).then(async (response) => {
       const result = await response.json();
@@ -52,7 +39,7 @@ function CadastroCategoria() {
             values,
           ]);
 
-          setValues(categoryValues);
+          clearForm();
         }}
         >
 
